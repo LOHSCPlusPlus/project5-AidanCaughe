@@ -9,6 +9,8 @@ using namespace std;
 Set head and tail to nullptr
 */
 InventorDB::InventorDB(){
+  head = nullptr;
+  tail = nullptr;
 }
 
 InventorDB::~InventorDB() {
@@ -17,28 +19,74 @@ InventorDB::~InventorDB() {
 
 // Delete all the current nodes and set head & tail to nullptr
 void InventorDB::deleteAllNodes() {
+  while(head != nullptr) {
+	Node *next = head->next;
+	delete head;
+	head = next;
+}
+tail = nullptr;
+head = nullptr;
 }
 
 // Append a new entry at the tail of the list
 void InventorDB::append(Inventor inventor) {
+Node *nodePtr = new Node(inventor);
+if (tail == nullptr) {
+    head = nodePtr;
+}
+else {
+	tail->next = nodePtr;
+}
+tail = nodePtr;
+
 }
 
 // Traverse the list printing all the data in the nodes
 void InventorDB::print() {
+  Node *curr = head;
+while(curr != nullptr) {
+    curr->data.print();
+	curr = curr->next;
+}
 }
 
 // Insert a new entry at the head of the list
 void InventorDB::insertInFront(Inventor inventor){
+Node *nodePtr = new Node(inventor);
+  if (head == nullptr) {
+    tail = nodePtr;
+}
+else {
+	nodePtr->next = head;
+}
+head = nodePtr;
 }
 
 // If there is an entry at the head of the list, remove it.
 void InventorDB::removeFront() {
+  if (head != nullptr) {
+	Node *next = head->next;
+	delete head;
+	head = next;
+}
+if (head == nullptr) {
+tail = nullptr;
+}
+
 }
 
 
 // Traverse the list and if a call to isAlive on the data
 // in the node returns true, print that data.
 void InventorDB::printAlive() {
+  Node *curr = head;
+while(curr != nullptr) {
+    if(curr->data.isAlive()==true){
+     curr->data.print(); 
+    }
+	curr = curr->next;
+}
+
 }
 
 
